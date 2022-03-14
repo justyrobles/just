@@ -25,7 +25,10 @@ function compare(value1, value2) {
     return true;
   }
 
-  if ({}.toString.call(value1) != {}.toString.call(value2)) {
+  if (
+    typeof value1 != typeof value2 || // primitive != primitive wrapper
+    {}.toString.call(value1) != {}.toString.call(value2) // check for other (possibly nullish) objects
+  ) {
     return false;
   }
 
@@ -42,11 +45,11 @@ function compare(value1, value2) {
     return compareArrays(value1, value2);
   }
 
-  if ({}.toString.call(value1) == '[object Set]') {
+  if ({}.toString.call(value1) == "[object Set]") {
     return compareArrays(Array.from(value1), Array.from(value2));
   }
 
-  if ({}.toString.call(value1) == '[object Object]') {
+  if ({}.toString.call(value1) == "[object Object]") {
     return compareObjects(value1, value2);
   }
 
